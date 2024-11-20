@@ -1,0 +1,135 @@
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+public class MimiForKids {
+    public static void main(String[] args) {
+        String inputFile = "arithmetic_operation.txt"; 
+        String outputFile = "Math_puzzle_result.txt"; 
+        int score = 0; 
+        int wrong = 0; 
+        Scanner sc = new Scanner(System.in);
+
+        
+        System.out.println("Welcome to the Math Puzzle Game!!");
+
+        
+        System.out.print("Enter Player name: ");
+        String name = sc.nextLine().trim();
+
+        
+        System.out.print("Do you want to play? (yes/no): ");
+        String play = sc.nextLine().trim().toLowerCase();
+
+        if (!play.equals("yes")) {
+            System.out.println("Maybe next time! Goodbye!");
+            return;
+        }
+
+        
+        System.out.println("Select One level: ");
+        System.out.println("1. Beginner (5)");
+        System.out.println("2. Intermediate (10)");
+        System.out.println("3. Hard (20)");
+        System.out.print("Enter your choice (1/2/3): ");
+        int diff = sc.nextInt();
+        int limit;
+        String level;
+
+        switch (diff) {
+            case 1:
+                limit = 5;
+                level = "Beginner";
+                System.out.println("You chose Beginner.");
+                break;
+            case 2:
+                limit = 10;
+                level = "Intermediate";
+                System.out.println("You chose Intermediate.");
+                break;
+            case 3:
+                limit = 20;
+                level = "Hard";
+                System.out.println("You chose Hard.");
+                break;
+            default:
+                limit = 5;
+                level = "Beginner";
+                System.out.println("Invalid choice. Defaulting to Beginner.");
+        }
+
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
+            String line;
+            int count = 0;
+
+            while ((line = br.readLine()) != null && count < limit) {
+                String[] parts = line.split("=");                 if (parts.length != 2) {
+                    System.out.println("Invalid format: " + line);
+                    continue;
+                }
+
+                String expr = parts[0].trim();
+                int correct = Integer.parseInt(parts[1].trim());
+                int calc = evaluateExpression(expr);
+
+                
+                System.out.println("What is the result of:\n " + expr + "?");
+                int answer = sc.nextInt();
+
+                if (answer == correct && answer == calc) {
+                    System.out.println("Correct!");
+                    score++;
+                } else {
+                    System.out.println("Wrong! The correct answer is:\n " + calc);
+                    wrong++;
+                }
+                count++;
+            }
+
+            
+            System.out.println("\nMath puzzle game is Over!");
+            System.out.println("Your final score is: " + score + "/" + limit);
+            System.out.println("Correct answers: " + score);
+            System.out.println("Wrong answers: " + wrong);
+
+            
+            String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+            
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile, true))) {
+                
+                File file = new File(outputFile);
+                if (file.length() == 0) {
+                    bw.write(String.format("%-20s %-10s %-20s %-15s%n", "Player Name", "Score", "Date and Time", "Difficulty Level"));
+                }
+                bw.write(String.format("%-20s %-10s %-20s %-15s%n", name, score + "/" + limit, date, level));
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error reading the file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number format in the file.");
+        }
+    }
+
+    
+    private static int evaluateExpression(String expr) {
+        if (expr.contains("+")) {
+            String[] nums = expr.split("\\+");
+            return Integer.parseInt(nums[0].trim()) + Integer.parseInt(nums[1].trim());
+        } else if (expr.contains("-")) {
+            String[] nums = expr.split("-");
+            return Integer.parseInt(nums[0].trim()) - Integer.parseInt(nums[1].trim());
+        } else if (expr.contains("*")) {
+            String[] nums = expr.split("\\*");
+            return Integer.parseInt(nums[0].trim()) * Integer.parseInt(nums[1].trim());
+        } else if (expr.contains("/")) {
+            String[] nums = expr.split("/");
+            return Integer.parseInt(nums[0].trim()) / Integer.parseInt(nums[1].trim());
+        } else {
+            throw new IllegalArgumentException("Unsupported operation in expression: " + expr);
+        }
+    }
+}
