@@ -1,0 +1,135 @@
+import java.util.Scanner;
+
+public class CGPACalculator {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        
+        System.out.print("Enter Student ID: ");
+        String studentId = scanner.nextLine();
+        
+        
+        double totalGradePoints = 0;
+        double totalCredits = 0;
+        
+        
+        System.out.println("\nEnter details for Course 1:");
+        System.out.print("Credit Hours (Max 3): ");
+        int credit1 = scanner.nextInt();
+        totalCredits += credit1;
+        
+        System.out.print("Class Test Marks (Max 30): ");
+        int ctMarks1 = scanner.nextInt();
+        
+        System.out.print("Assignment Marks (Max 10): ");
+        int atMarks1 = scanner.nextInt();
+        
+        System.out.print("Final Exam Marks (Max 60): ");
+        int feMarks1 = scanner.nextInt();
+        
+        int totalMarks1 = ctMarks1 + atMarks1 + feMarks1;
+        double gradePoint1 = calculateGradePoint(totalMarks1);
+        totalGradePoints += gradePoint1 * credit1;
+        
+        
+        System.out.println("\nEnter details for Course 2:");
+        System.out.print("Credit Hours (Max 3): ");
+        int credit2 = scanner.nextInt();
+        totalCredits += credit2;
+        
+        System.out.print("Class Test Marks (Max 30): ");
+        int ctMarks2 = scanner.nextInt();
+        
+        System.out.print("Assignment Marks (Max 10): ");
+        int atMarks2 = scanner.nextInt();
+        
+        System.out.print("Final Exam Marks (Max 60): ");
+        int feMarks2 = scanner.nextInt();
+        
+        int totalMarks2 = ctMarks2 + atMarks2 + feMarks2;
+        double gradePoint2 = calculateGradePoint(totalMarks2);
+        totalGradePoints += gradePoint2 * credit2;
+        
+        
+        System.out.println("\nEnter details for Course 3:");
+        System.out.print("Credit Hours (Max 3): ");
+        int credit3 = scanner.nextInt();
+        totalCredits += credit3;
+        
+        System.out.print("Class Test Marks (Max 30): ");
+        int ctMarks3 = scanner.nextInt();
+        
+        System.out.print("Assignment Marks (Max 10): ");
+        int atMarks3 = scanner.nextInt();
+        
+        System.out.print("Final Exam Marks (Max 60): ");
+        int feMarks3 = scanner.nextInt();
+        
+        int totalMarks3 = ctMarks3 + atMarks3 + feMarks3;
+        double gradePoint3 = calculateGradePoint(totalMarks3);
+        totalGradePoints += gradePoint3 * credit3;
+
+        
+        double cgpa = totalGradePoints / totalCredits;
+
+        
+        System.out.println("\nStudent ID: " + studentId);
+        System.out.println("Credit Taken: " + totalCredits);
+        System.out.println("Credit Earned: " + totalCredits);
+        System.out.println("CGPA: " + cgpa);
+        System.out.println("Grade: " + determineGrade(cgpa));
+
+        scanner.close();
+    }
+
+    
+    public static double calculateGradePoint(int totalMarks) {
+        if (totalMarks >= 80) {
+            return 4.0;  
+        } else if (totalMarks >= 75) {
+            return 3.75; 
+        } else if (totalMarks >= 70) {
+            return 3.50; 
+        } else if (totalMarks >= 65) {
+            return 3.25; 
+        } else if (totalMarks >= 60) {
+            return 3.00; 
+        } else if (totalMarks >= 55) {
+            return 2.75; 
+        } else if (totalMarks >= 50) {
+            return 2.50; 
+        } else if (totalMarks >= 45) {
+            return 2.25; 
+        } else if (totalMarks >= 40) {
+            return 2.00; 
+        } else {
+            return 0.00; 
+        }
+    }
+
+    
+    public static String determineGrade(double cgpa) {
+        if (cgpa >= 3.75) {
+            return "A+";
+        } else if (cgpa >= 3.50) {
+            return "A";
+        } else if (cgpa >= 3.25) {
+            return "A-";
+        } else if (cgpa >= 3.00) {
+            return "B+";
+        } else if (cgpa >= 2.75) {
+            return "B";
+        } else if (cgpa >= 2.50) {
+            return "B-";
+        } else if (cgpa >= 2.00) {
+            return "C+";
+        } else if (cgpa >= 1.75) {
+            return "C";
+        } else if (cgpa >= 1.50) {
+            return "D";
+        } else {
+            return "F";
+        }
+    }
+}
