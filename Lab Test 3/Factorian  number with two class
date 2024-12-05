@@ -1,0 +1,47 @@
+import java.util.Scanner;
+
+
+public class FactorianChecker {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter the starting number of the range: ");
+        int start = sc.nextInt();
+
+        System.out.print("Enter the ending number of the range: ");
+        int end = sc.nextInt();
+
+        System.out.println("Factorians in the given range:");
+        for (int num = start; num <= end; num++) {
+            if (FactorianUtils.isFactorian(num)) {
+                System.out.println(num);
+            }
+        }
+    }
+}
+
+
+class FactorianUtils {
+    
+    public static boolean isFactorian(int num) {
+        int temp = num;
+        long sumOfDigitFactorials = 0;
+
+        while (temp > 0) {
+            int digit = temp % 10;
+            sumOfDigitFactorials += factorial(digit);
+            temp /= 10;
+        }
+
+        return sumOfDigitFactorials == num;
+    }
+
+    
+    public static long factorial(int n) {
+        long result = 1;
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+}
